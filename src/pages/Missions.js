@@ -74,3 +74,4 @@ export default function Missions() {
     </section>
   );
 }
+            {m.bon && <p className="muted">Bon de livraison : {m.bon.numero}</p>}

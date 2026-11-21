@@ -4,6 +4,7 @@ import api from '../api/axios';
 import useFetch from '../hooks/useFetch';
 import { useAuth } from '../context/AuthContext';
 import State from '../components/State';
+import { LABELS } from '../constants';
 
 const date = (d) => (d ? new Date(d).toLocaleDateString('fr-FR') : '—');
 
@@ -34,7 +35,8 @@ export default function BonLivraison() {
 
   const c = l.commande || {};
   const client = c.client || user;
-  const peutSigner = l.statut === 'livree' && !l.bon.signe && user.role === 'client';
+  const livree = l.statut === 'livree';
+  const peutSigner = livree && !l.bon.signe && user.role === 'client';
 
   return (
     <section>
@@ -43,6 +45,11 @@ export default function BonLivraison() {
         <button className="btn" onClick={() => window.print()}>Télécharger en PDF</button>
         {peutSigner && <button className="btn" onClick={signer}>Signer le bon</button>}
       </div>
+      {!livree && !l.bon.signe && (
+        <p className="muted no-print">
+          Signature possible après la livraison (statut actuel : {LABELS[l.statut]}).
+        </p>
+      )}
       {message && <p className="muted no-print">{message}</p>}
 
       <article className="bon">
@@ -81,6 +88,7 @@ export default function BonLivraison() {
             <h3>Transport</h3>
             <p>Camion : {l.camion?.immatriculation} ({l.camion?.type})</p>
             <p>Chauffeur : {l.chauffeur?.prenom} {l.chauffeur?.nom}</p>
+            <p>Statut : {LABELS[l.statut]}</p>
           </div>
         </div>
 
@@ -108,6 +116,12 @@ export default function BonLivraison() {
         <div className="bon-sign">
           <div>
             Signature du chauffeur
+            {livree && (
+              <p className="bon-stamp">
+                LIVRÉ ✓<br />
+                {l.chauffeur?.prenom} {l.chauffeur?.nom}
+              </p>
+            )}
           </div>
           <div>
             Signature du client

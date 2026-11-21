@@ -197,6 +197,9 @@ function route(db, method, path, body, me) {
       return l;
     }
     if (m[2] === 'bon') {
+              if (!['chargee', 'en_cours', 'livree'].includes(l.statut)) {
+        fail(422, 'Le bon se génère après la confirmation du chargement');
+      }
       if (db.bons.some((b) => b.livraison_id === l.id)) fail(422, 'Bon déjà généré');
       const bon = {
         id: nextId(db), livraison_id: l.id, numero: `BL-${l.id}-${new Date().getFullYear()}`,
