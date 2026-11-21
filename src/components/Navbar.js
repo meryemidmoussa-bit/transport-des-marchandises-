@@ -2,7 +2,6 @@ import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-// Menu selon le rôle (acteurs du diagramme de cas d'utilisation)
 const MENUS = {
   client: [
     ['/client/commandes', 'Mes commandes'],
@@ -18,10 +17,18 @@ const MENUS = {
   chauffeur: [['/chauffeur/missions', 'Mes missions']],
 };
 
+const ROLES = {
+  client: 'Client',
+  gestionnaire: 'Gestionnaire',
+  chauffeur: 'Chauffeur',
+};
+
 export default function Navbar() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   if (!user) return null;
+
+  const initiales = `${user.prenom?.[0] || ''}${user.nom?.[0] || ''}`.toUpperCase();
 
   const handleLogout = async () => {
     await logout();
@@ -29,15 +36,35 @@ export default function Navbar() {
   };
 
   return (
-    <header className="navbar">
-      <strong className="brand">Fret</strong>
+    <aside className="sidebar">
+      <div className="sidebar-brand">
+        <span className="logo">F</span>
+        <div>
+          <strong>Fret</strong>
+          <small>Transport de marchandises</small>
+        </div>
+      </div>
+
       <nav>
         {MENUS[user.role].map(([path, label]) => (
-          <NavLink key={path} to={path} end>{label}</NavLink>
+          <NavLink key={path} to={path} end>
+            {label}
+          </NavLink>
         ))}
       </nav>
-      <span className="who">{user.prenom} {user.nom}</span>
-      <button className="btn ghost" onClick={handleLogout}>Se déconnecter</button>
-    </header>
+
+      <div className="sidebar-user">
+        <div className="user-row">
+          <span className="avatar">{initiales}</span>
+          <div className="user-info">
+            <strong>{user.prenom} {user.nom}</strong>
+            <small>{ROLES[user.role]}</small>
+          </div>
+        </div>
+        <button className="logout" onClick={handleLogout}>
+          Se déconnecter
+        </button>
+      </div>
+    </aside>
   );
 }
