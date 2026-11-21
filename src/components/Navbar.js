@@ -6,10 +6,12 @@ const MENUS = {
   client: [
     ['/client/commandes', 'Mes commandes'],
     ['/client/commandes/nouvelle', 'Passer une commande'],
+    ['/client/echecs', 'Notifications'],
   ],
   gestionnaire: [
     ['/gestionnaire/commandes', 'Commandes'],
     ['/gestionnaire/livraisons', 'Livraisons'],
+    ['/gestionnaire/echecs', 'Échecs'],
     ['/gestionnaire/camions', 'Camions'],
     ['/gestionnaire/chauffeurs', 'Chauffeurs'],
     ['/gestionnaire/historique', 'Historique'],

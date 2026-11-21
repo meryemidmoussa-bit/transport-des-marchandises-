@@ -46,11 +46,12 @@ const expandCommande = (db, c) => ({ ...c, client: pub(db.users.find((u) => u.id
 
 const expandLivraison = (db, l) => {
   const chauffeur = db.users.find((u) => u.id === l.chauffeur_id);
+  const commande = db.commandes.find((c) => c.id === l.commande_id);
   return {
     ...l,
     camion: db.camions.find((c) => c.id === l.camion_id),
     chauffeur: chauffeur && pub(chauffeur),
-    commande: db.commandes.find((c) => c.id === l.commande_id),
+    commande: commande && expandCommande(db, commande),
     bon: db.bons.find((b) => b.livraison_id === l.id),
   };
 };

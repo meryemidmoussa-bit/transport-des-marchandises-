@@ -14,7 +14,8 @@ import Camions from './pages/Camions';
 import Chauffeurs from './pages/Chauffeurs';
 import Historique from './pages/Historique';
 import Missions from './pages/Missions';
-
+import Echecs from './pages/Echecs';
+import BonLivraison from './pages/BonLivraison';
 const HOME = {
   client: '/client/commandes',
   gestionnaire: '/gestionnaire/commandes',
@@ -37,10 +38,11 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
-          {/* Client */}
+                    {/* Client */}
           <Route path="/client/commandes" element={<ProtectedRoute roles={['client']}><ClientCommandes /></ProtectedRoute>} />
           <Route path="/client/commandes/nouvelle" element={<ProtectedRoute roles={['client']}><NouvelleCommande /></ProtectedRoute>} />
           <Route path="/client/suivi/:id" element={<ProtectedRoute roles={['client']}><SuiviLivraison /></ProtectedRoute>} />
+          <Route path="/client/bon/:id" element={<ProtectedRoute roles={['client']}><BonLivraison /></ProtectedRoute>} />
 
           {/* Gestionnaire */}
           <Route path="/gestionnaire/commandes" element={<ProtectedRoute roles={G}><GestCommandes /></ProtectedRoute>} />
@@ -54,6 +56,8 @@ export default function App() {
           <Route path="/chauffeur/missions" element={<ProtectedRoute roles={['chauffeur']}><Missions /></ProtectedRoute>} />
 
           <Route path="*" element={<p className="muted">Page introuvable.</p>} />
+                    <Route path="/client/echecs" element={<ProtectedRoute roles={['client']}><Echecs /></ProtectedRoute>} />
+          <Route path="/gestionnaire/echecs" element={<ProtectedRoute roles={G}><Echecs /></ProtectedRoute>} />
         </Routes>
       </main>
     </div>
