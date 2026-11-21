@@ -1,6 +1,13 @@
 import axios from 'axios';
+import mockAdapter from './mock';
 
-const api = axios.create({ baseURL: import.meta.env.VITE_API_URL });
+// VITE_USE_MOCK=true : faux backend dans le navigateur
+const useMock = import.meta.env.VITE_USE_MOCK === 'true';
+
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
+  ...(useMock ? { adapter: mockAdapter } : {}),
+});
 
 // Ajoute le token à chaque requête
 api.interceptors.request.use((config) => {

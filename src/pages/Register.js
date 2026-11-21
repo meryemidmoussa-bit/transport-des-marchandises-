@@ -19,7 +19,11 @@ export default function Register() {
       navigate('/');
     } catch (err) {
       const errors = err.response?.data?.errors;
-      setError(errors ? Object.values(errors).flat().join(' ') : 'Inscription impossible');
+      setError(
+  errors
+    ? Object.values(errors).flat().join(' ')
+    : err.response?.data?.message || 'Inscription impossible'
+);
     }
   };
 

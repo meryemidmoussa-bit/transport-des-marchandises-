@@ -36,7 +36,8 @@ export function AuthProvider({ children }) {
     } catch (e) {
       // on ignore l'erreur
     }
-    localStorage.clear();
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
     setUser(null);
   };
 
